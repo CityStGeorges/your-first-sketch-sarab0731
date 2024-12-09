@@ -32,21 +32,21 @@
 31|-1|-1|NULL|NULL
 32|4|14|desk|Connections,mini
 33|-1|-1|NULL|NULL
-34|6|15|home|Mini,connections 
+34|6|15|home|Mini,connections
 35|4|23|bed|Mini,connections,strands,sudoku
 36|5|8|train station|Mini,connections,strands,sudoku
-37|4|0|bed|Mini,connections 
+37|4|0|bed|Mini,connections
 38|4|10|home|Mini,connections,sudoku
 39|4|1|bed|Mini,connections,sudoku
 40|0|17|home|Sudoku
 41|5|23|bed|Mini,connections,strands
-42|4|1|bed|Mini,connections,sudoku 
-43|3|11.5|uni library|Mini,connections 
-44|6|16.5|home|Mini,connections 
+42|4|1|bed|Mini,connections,sudoku
+43|3|11.5|uni library|Mini,connections
+44|6|16.5|home|Mini,connections
 45|6|13|uni|Mini
-46|4|11|bed|Mini,connections 
+46|4|11|bed|Mini,connections
 47|4|15.5|home|Connections,mini
-48|3|19|restaurant|NULL	
+48|3|19|restaurant|NULL
 49|4|13|library|Mini
 50|5|15|library|NULL
 51|3|12|desk|Mini

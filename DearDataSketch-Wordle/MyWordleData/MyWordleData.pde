@@ -1,7 +1,8 @@
 /*Digitized data copyright The Monotype Corporation 1991-1995. All rights reserved.
  Franklin Gothic is a trademark of The International Typeface Corporation which may
  be registered in certain jurisdictions.*/
-PFont font;                //Franklin Gothic Demi font
+PFont franklin_gothic;                //Franklin Gothic Demi font
+PFont news_gothic;                    // News Gothis Std medium font
 
 int[] days;                // Array to store day values
 int[] scores;              // Array to store score data
@@ -15,8 +16,8 @@ int cols = 7;               // Number of columns
 int rows = 8;               // Number of rows
 int squareSize = 75;        // Size of each square
 int spacing = 8;           // Spacing between squares
-int startX = 100;            // X-coordinate of the grids TL corner
-int startY = 50;            // Y-coordinate of the grids TL corner
+float startX = 313.5;            // X-coordinate of the grids TL corner
+float startY = 50;            // Y-coordinate of the grids TL corner
 
 Square[] s;
 String[] strScores;
@@ -27,7 +28,8 @@ color[][] mgColours; // 2D array of minigame colours to represent each minigame 
 
 
 void setup() {
-  font = createFont("franklingothic_demi.ttf", 45);
+  franklin_gothic = createFont("franklingothic_demi.ttf", 45);
+  news_gothic = createFont("News Gothic Std Medium.otf", 18);
   size(1200, 750);
 
 
@@ -58,8 +60,8 @@ void setup() {
     locations[i]  = values[3].toLowerCase();
     minigames[i] = split(values[4].toLowerCase(), ",");
   }
-  
-    mgColours = new color[minigames.length][];
+
+  mgColours = new color[minigames.length][];
 
   // nullpointerexception fix:
   for (int i = 0; i < minigames.length; i++) {
@@ -167,18 +169,19 @@ void setup() {
   for (int row = 0; row < rows; row++) {
     for (int col = 0; col < cols; col++) {
       // Calculate x and y positions for each square
-      int x = startX + col * (squareSize + spacing);
-      int y = startY + row * (squareSize + spacing);
+      float x = startX + col * (squareSize + spacing);
+      float y = startY + row * (squareSize + spacing);
       // Calculate the i value of current square to determine square colour and score
       int i = row* cols + col;
       if (i < sColours.length) { // Prevent accessing out of bounds
-        s[i] = new Square(x, y, squareSize, sColours[i], strScores[i] );
+        s[i] = new Square(x, y, squareSize, sColours[i], strScores[i]);
       } else {
         s[i] = new Square(x, y, squareSize, color(255), strScores[i]); // Default color for empty squares
       }
     }
   }
 }
+
 
 
 void draw() {
@@ -193,16 +196,50 @@ void draw() {
       }
     }
   }
-}
+  fill(10);
+  textAlign(CENTER);
+  textFont(news_gothic, 18);
+  text("To reset the grid, press R", 1030, 600);
 
+  for (int row = 0; row < rows; row++) {
+    for (int col = 0; col < cols; col++) {
+      if (keyPressed && key == 'm') {
+        // Calculate x and y positions for each square
+        float x = startX + col * (squareSize + spacing);
+        float y = startY + row * (squareSize + spacing);
+        // Calculate the i value of current square to determine square colour and score
+        int i = row* cols + col;
+        if (i < sColours.length) { // Prevent accessing out of bounds
+          s[i] = new Square(x, y, squareSize, sColours[i], strScores[i]);
+          s[i].minigameDisplay(mgColours[i]);
+        } else {
+          s[i] = new Square(x, y, squareSize, color(255), strScores[i]); // Default color for empty squares
+        }
+      }
+    }
+  }
+}
 void mousePressed() {
   for (Square square : s) {
     // Check if the mouse overlaps and the score is valid
     if (square.cursorOverlapsWith() && square.score != null) {
       highlightedScore = square.score; // score to be highlighted
       break;
+    } else {
+      highlightedScore = null;
     }
   }
+}
 
-  //if (Button.cursorOverlapsWith()) {
+void keyPressed() {
+  if (key == 'r') {
+    highlightedScore = null;
+    // other reset methods go here...
+  }
+  if (key == 'm') {
+  }
+  if (key == 'l') {
+  }
+  if (key == 't') {
+  }
 }
