@@ -23,6 +23,8 @@ String[] strScores;
 
 String highlightedScore = null; // To track the score of the clicked square
 
+color[][] mgColours; // 2D array of minigame colours to represent each minigame played per day
+
 
 void setup() {
   font = createFont("franklingothic_demi.ttf", 45);
@@ -56,6 +58,17 @@ void setup() {
     locations[i]  = values[3].toLowerCase();
     minigames[i] = split(values[4].toLowerCase(), ",");
   }
+  
+    mgColours = new color[minigames.length][];
+
+  // nullpointerexception fix:
+  for (int i = 0; i < minigames.length; i++) {
+    if (minigames[i] != null) {
+      mgColours[i] = new color[minigames[i].length];
+    } else {
+      mgColours[i] = new color[0]; // handle cases where minigames[i] is null
+    }
+  }
 
   // --storing colour values for each square--
 
@@ -83,6 +96,8 @@ void setup() {
       sColours[i] = color(255); // Default to white if score is invalid
     }
   }
+
+  // --storing score values for each square--
 
   for (int i = 0; i < textLines.length; i++) {
     switch (scores[i]) {
@@ -116,6 +131,38 @@ void setup() {
     }
   }
 
+  // --storing minigame colour values for each square--
+
+  color mini = color(144, 187, 255); // Mini colour
+  color connections = color(186, 159, 255); // Connections colour
+  color strands = color(186, 223, 218); // Strands colour
+  color sudoku = color(255, 154, 0); // Sudoku colour
+  color lightGrey = color(211, 214, 219); // wordle light grey
+
+  for (int i = 0; i < minigames.length; i++) {
+    if (minigames[i] != null && minigames[i].length > 0) {
+      for (int j = 0; j < minigames[i].length; j++) {
+        switch (minigames[i][j]) {
+        case "connections":
+          mgColours[i][j] = connections;
+          break;
+        case "sudoku":
+          mgColours[i][j] = sudoku;
+          break;
+        case "mini":
+          mgColours[i][j] = mini;
+          break;
+        case "strands":
+          mgColours[i][j] = strands;
+          break;
+        default:
+          mgColours[i][j] = lightGrey;
+          break;
+        }
+      }
+    }
+  }
+
   /* --CREATING GRID LOOP-- */
   for (int row = 0; row < rows; row++) {
     for (int col = 0; col < cols; col++) {
@@ -133,6 +180,7 @@ void setup() {
   }
 }
 
+
 void draw() {
   background(255);
   for (Square square : s) {
@@ -149,21 +197,12 @@ void draw() {
 
 void mousePressed() {
   for (Square square : s) {
-    // Check if the mouse overlaps and the score is not null
-    if (square.cursorOverlapsWith() && !square.score.equals("")) {
-      highlightedScore = square.score; // Update the highlighted score
-      break;  // Call clickedDisplay for the selected square
+    // Check if the mouse overlaps and the score is valid
+    if (square.cursorOverlapsWith() && square.score != null) {
+      highlightedScore = square.score; // score to be highlighted
+      break;
     }
   }
+
+  //if (Button.cursorOverlapsWith()) {
 }
-
-
-
-// Mini colour
-//color(144,187,255);
-// Connections colour
-//color(186, 159, 255);
-// Strands colour
-//color(186,223,218);
-// Sudoku colour
-//color(255,154,0)

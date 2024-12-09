@@ -29,9 +29,9 @@ class Square {
   void hoverDisplay() {
     // empty day entries will not have a hover display
     if (cursorOverlapsWith() && !score.equals("")) {
-      hoverScale = min(hoverScale +0.005, 1.03);
+      hoverScale = min(hoverScale +0.01, 1.03);
     } else {
-      hoverScale = max(hoverScale -0.01, 1.0);
+      hoverScale = max(hoverScale -0.005, 1.0);
     }
 
     float animatedSize = size * hoverScale;
